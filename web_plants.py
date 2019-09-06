@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-def template(title = "HELLO!", text = ""):
+def template(title = "Ish's Watering Depot", text = ""):
     now = datetime.datetime.now()
     timeString = now
     templateDate = {
@@ -57,7 +57,7 @@ def auto_water(toggle):
             except:
                 pass
         if not running:
-            os.system("python3.4 auto_water.py&")
+            os.system("python3 auto_water.py&")
     else:
         templateData = template(text = "Auto Watering Off")
         os.system("pkill -f water.py")
