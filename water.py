@@ -31,7 +31,7 @@ def auto_water(delay = 5, pump_pin = 7, water_sensor_pin = 8):
         while 1 and consecutive_water_count < 10:
             time.sleep(delay)
             wet = get_status(pin = water_sensor_pin) == 0
-            if not wet:
+            if not wet: # Need to calibrate moisture sensor
                 if consecutive_water_count < 5:
                     pump_on(pump_pin, 1)
                 consecutive_water_count += 1
