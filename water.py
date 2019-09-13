@@ -14,7 +14,7 @@ def get_last_watered():
     except:
         return "NEVER!"
       
-def get_status(pin = 8):
+def get_status(pin = 7):
     GPIO.setup(pin, GPIO.IN) 
     return GPIO.input(pin)
 
@@ -23,7 +23,7 @@ def init_output(pin):
     GPIO.output(pin, GPIO.LOW)
     GPIO.output(pin, GPIO.HIGH)
     
-def auto_water(delay = 1, pump_pin = 7, water_sensor_pin = 8):
+def auto_water(delay = 1, pump_pin = 8, water_sensor_pin = 7):
     consecutive_water_count = 0
     init_output(pump_pin)
     print("Here we go! Press CTRL+C to exit")
@@ -49,4 +49,7 @@ def pump_on(pump_pin = 7, delay = 1):
     GPIO.output(pump_pin, GPIO.HIGH)
     time.sleep(1)
     GPIO.output(pump_pin, GPIO.LOW)
+    
+if __name__ == "__main__":
+    auto_water()
     
