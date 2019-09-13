@@ -2,6 +2,7 @@ from twython import Twython
 #from smbus import SMBus
 import RPi.GPIO as GPIO
 import Adafruit_DHT
+import os
 import time
 
 # Twitter authentication
@@ -23,6 +24,14 @@ deg = u'\N{DEGREE SIGN}'
 DHT_SENSOR = Adafruit_DHT.DHT22
 DHT_PIN = 4
 
+# Add data logging functionality
+try:
+    f = open('/home/pi/humidity.csv', 'a+')
+    if os.stat('/home/pi/humidity.csv').st_size == 0:
+        f.write('Date,Time,Temperature,Humidity\r\n')
+except:
+    pass
+
 #GPIO.setmode(GPIO.BOARD)
 #GPIO.setup(LED, GPIO.IN)
 
@@ -30,22 +39,25 @@ DHT_PIN = 4
 while True:
     # get current system date and time
     datetime = time.strftime('%m/%d/%Y %H:%M:%S')
+    day = time.strftime('%m/%d/%Y')
+    tim = time.strftime('%H:%M:%S')
     
     # Read data from sensor
     #bus.write_byte(ADDR, 0x00)
     #ans = bus.read_i2c_block_data(ADDR, 0x00, 4)
     #GPIO.input(sensor)
     #print("Precheck")
-    humd, temp = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+    humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
     #print("Here")
-    humd = '{:.0f}'.format(humd)
-    temp = '{:.1f}'.format(temp)
+    humd = '{:.0f}'.format(humidity)
+    temp = '{:.1f}'.format(temperature)
     
     if humd is not None and temp is not None:
         print(datetime)
         print('Temperature: ' + str(temp) + deg + 'C')
         print('Humidity: ' + str(humd) + '%')
         print(' ')
+        f.write('{0},{1},{2:0.1f}*C,{3:0.1f}%\r\n'.format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature, humidity))
         
         msg = 'Boom! It is ' + datetime + \
           '. The temperature is ' + str(temp) + \
@@ -77,4 +89,4 @@ while True:
 
     
     # Delay (in seconds) before next message
-    time.sleep(60)
+    time.sleep(10)
