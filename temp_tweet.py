@@ -39,6 +39,7 @@ while True:
     humd, temp = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
     #print("Here")
     humd = '{:.0f}'.format(humd)
+    temp = '{:.1f}'.format(temp)
     
     if humd is not None and temp is not None:
         print(datetime)
@@ -46,10 +47,10 @@ while True:
         print('Humidity: ' + str(humd) + '%')
         print(' ')
         
-        msg = 'Weatherbot here! It is ' + datetime + \
+        msg = 'Boom! It is ' + datetime + \
           '. The temperature is ' + str(temp) + \
           deg + 'C, and the humidity is ' + \
-          str(humd) + '%.'
+          str(humd) + '%. You should wear a jacket today.'
         
         twitter.update_status(status=msg) 
         
