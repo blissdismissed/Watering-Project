@@ -1,8 +1,9 @@
 #/usr/bin/python
 
 import spidev
+from numpy import interp
 import os
-import time
+from time import sleep
 
 delay = 0.2
 
@@ -17,10 +18,11 @@ def readChannel(channel):
 if __name__ == "__main__":
     try:
         while True:
-            val = readChannel(0)
+            val = readChannel(0) #reading from channel 0
+            print(val)
             if (val != 0):
                 print(val)
-            time.sleep(delay)
+            sleep(delay)
             
     except KeyboardInterrupt:
         print("Cancel.")
